@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<full-backup-content>
+    <!-- Artwork is the user's data: back up projects, never transient exports. -->
+    <include domain="file" path="projects/" />
+    <exclude domain="file" path="exports/" />
+    <exclude domain="cache" path="." />
+</full-backup-content>
