@@ -1,0 +1,23 @@
+# Gradle
+.gradle/
+build/
+*/build/
+!gradle/wrapper/gradle-wrapper.jar
+local.properties
+
+# Signing (never commit secrets)
+keystore.properties
+*.jks
+*.keystore
+
+# Room schema export is kept in VCS on purpose (app/schemas), see below.
+
+# IDE
+.idea/
+*.iml
+.DS_Store
+captures/
+
+# Sandbox / tooling
+__pycache__/
+*.pyc
