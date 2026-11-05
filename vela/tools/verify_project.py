@@ -294,6 +294,54 @@ def check_object_members(files) -> None:
     print(f"[members] verified object member accesses ({checked} problems)")
 
 
+def check_enum_constants(files) -> None:
+    """Every `EnumName.CONSTANT` reference must name a declared enum entry."""
+    def strip_parens(text: str) -> str:
+        out, depth = [], 0
+        for ch in text:
+            if ch == "(":
+                depth += 1
+            elif ch == ")":
+                depth = max(0, depth - 1)
+            elif depth == 0:
+                out.append(ch)
+        return "".join(out)
+
+    def entries_of(body: str) -> set[str]:
+        body = re.sub(r"/\*.*?\*/", "", body, flags=re.S)
+        body = re.sub(r"//[^\n]*", "", body)
+        body = strip_parens(body).split(";")[0]
+        found = set()
+        for part in body.split(","):
+            token = part.split()[0] if part.split() else ""
+            if re.fullmatch(r"[A-Z_][A-Z_0-9]*", token):
+                found.add(token)
+        return found
+
+    enums: dict[str, set[str]] = {}
+    for kt in files:
+        text = kt.text
+        for match in re.finditer(r"enum class (\w+)\s*(?:\([^)]*\))?\s*\{", text):
+            start, depth, index = match.end(), 1, match.end()
+            while index < len(text) and depth:
+                if text[index] == "{":
+                    depth += 1
+                elif text[index] == "}":
+                    depth -= 1
+                index += 1
+            enums[match.group(1)] = entries_of(text[start:index - 1])
+
+    bad = 0
+    for kt in files:
+        for match in re.finditer(r"\b([A-Z]\w+)\.([A-Z][A-Z_0-9]*)\b", kt.text):
+            owner, constant = match.group(1), match.group(2)
+            if owner in enums and constant not in enums[owner]:
+                errors.append(f"{rel(kt.path)}: enum constant {owner}.{constant} does not exist")
+                bad += 1
+    if bad == 0:
+        print(f"[enums] verified {len(enums)} enum types, 0 unresolved constants")
+
+
 def check_markers(files) -> None:
     for kt in files:
         if not kt.path.startswith(MAIN):
@@ -425,6 +473,7 @@ def main() -> int:
     check_package_paths(files)
     check_duplicates(files)
     check_object_members(files)
+    check_enum_constants(files)
     check_markers(files)
     available = collect_resources()
     check_resource_refs(available)

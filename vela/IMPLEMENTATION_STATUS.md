@@ -39,7 +39,8 @@ Everything else below was done explicitly rather than assumed.
 | XML well-formedness (manifest + 10 resources) | `python3 tools/verify_project.py` | pass |
 | Bracket/paren/brace balance, 60 Kotlin files | same | pass |
 | Every `studio.vela.art.*` import resolves to a declared symbol (213 imports) | same | pass |
-| Member accesses on project objects (`VelaIcons.*`, `TileGeometry.*`, `DocumentManifest.*`, enum constants…) | same | pass, 0 unresolved |
+| Member accesses on project objects (`VelaIcons.*`, `TileGeometry.*`, `DocumentManifest.*`) | same | pass, 0 unresolved |
+| Enum constant references across 16 enum types (`BlendKind.*`, `BrushCategory.*`, `ToolKind.*`…) | same | pass, 0 unresolved |
 | Android resource references (`@style`, `@color`, `@drawable`, `R.string.*`) | same | pass, 16 references |
 | Manifest `android:name` classes exist on disk (with package resolution) | same | pass |
 | Source directory ↔ package declaration consistency | same | pass |
@@ -50,7 +51,7 @@ Everything else below was done explicitly rather than assumed.
 
 - Compilation of any Kotlin/Java source.
 - Gradle configuration, dependency resolution, KSP/Room code generation.
-- Execution of the 7 JVM unit test classes (`ViewportTest`, `DabGeneratorTest`,
+- Execution of the 6 JVM unit test classes (`ViewportTest`, `DabGeneratorTest`,
   `TileGeometryTest`, `DocumentManifestTest`, `CanvasSpecTest`, `MultiTapRecognizerTest`, plus the
   instrumented `DocumentPersistenceInstrumentedTest`).
 - Any runtime behaviour: drawing quality, frame rate, memory use, export correctness.

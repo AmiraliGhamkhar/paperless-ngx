@@ -18,6 +18,7 @@ $ cd vela && python3 tools/verify_project.py
 [imports] verified 213 project imports
 [layout] package directories verified
 [members] verified object member accesses (0 problems)
+[enums] verified 16 enum types, 0 unresolved constants
 [resources] checked 16 resource references
 [manifest] application/activity classes resolved
 [imports] unused imports: 0
@@ -32,7 +33,8 @@ The checker verifies:
 | XML well-formedness | Broken resource/manifest XML | 10/10 pass |
 | Bracket balance (comment/string aware) | Truncated or malformed Kotlin blocks | 60/60 pass |
 | Project import resolution | References to classes/functions that were never written | 213/213 resolve |
-| Object member access | `VelaIcons.x`, `TileGeometry.x`, `DocumentManifest.x`, enum constants… | 0 unresolved |
+| Object member access | `VelaIcons.x`, `TileGeometry.x`, `DocumentManifest.x`… | 0 unresolved |
+| Enum constant references | `BlendKind.MULTIPLY`, `BrushCategory.OIL`, `ToolKind.FILL`… | 16 enum types, 0 unresolved |
 | Resource references | `@style/…`, `@color/…`, `R.string.…` that do not exist | 16/16 resolve |
 | Manifest classes | `android:name` targets missing on disk | pass |
 | Package ↔ directory consistency | Sources in the wrong source-set path | pass |
@@ -56,16 +58,18 @@ during development (a missing `VelaIcons.merge`, a non-existent `boundController
 
 ## Test inventory (written, awaiting execution)
 
+54 test methods across 6 classes (unit) + 4 instrumented tests.
+
 ### JVM unit tests — `app/src/test/java/studio/vela/art/`
 
 | Class | Coverage |
 |---|---|
-| `ViewportTest` | doc↔screen round trip, centre mapping, zoom-about-focal invariance, rotate-about-focal invariance, rotation normalisation, zoom clamping, fit maths, visible-rect containment, pan clamping |
-| `DabGeneratorTest` | constant dab spacing on a straight stroke, pressure→size, gamma curve values, pressure output window, velocity thinning, tilt widening, taper-in growth, scatter bounds, zero-alpha rejection |
-| `TileGeometryTest` | key packing/uniqueness, tile counts, boundary-spanning circles, out-of-document rejection, edge-clamped tile rects, rect→tile enumeration |
-| `DocumentManifestTest` | JSON round trip, validation of empty/duplicate/invalid layers, "too new" version reporting, migration identity, unknown-field tolerance, blend-name fallback |
-| `CanvasSpecTest` | megapixel/memory maths, DPI→mm, limit clamping, oversized warning, scale aspect ratio, preset uniqueness/lookup |
-| `MultiTapRecognizerTest` | two-finger undo, three-finger redo, drag rejection, slow-tap rejection, single-finger rejection, disabled gestures, palm-rejection policy, stylus-eraser policy |
+| `ViewportTest` (9 tests) | doc↔screen round trip, centre mapping, zoom-about-focal invariance, rotate-about-focal invariance, rotation normalisation, zoom clamping, fit maths, visible-rect containment, pan clamping |
+| `DabGeneratorTest` (10) | constant dab spacing on a straight stroke, pressure→size, gamma curve values, pressure output window, velocity thinning, tilt widening, taper-in growth, scatter bounds, zero-alpha rejection |
+| `TileGeometryTest` (9) | key packing/uniqueness, tile counts, boundary-spanning circles, out-of-document rejection, edge-clamped tile rects, rect→tile enumeration |
+| `DocumentManifestTest` (9) | JSON round trip, validation of empty/duplicate/invalid layers, "too new" version reporting, migration identity, unknown-field tolerance, blend-name fallback |
+| `CanvasSpecTest` (7) | megapixel/memory maths, DPI→mm, limit clamping, oversized warning, scale aspect ratio, preset uniqueness/lookup |
+| `MultiTapRecognizerTest` (10) | two-finger undo, three-finger redo, drag rejection, slow-tap rejection, single-finger rejection, disabled gestures, palm-rejection policy, stylus-eraser policy |
 
 ### Instrumented tests — `app/src/androidTest/`
 

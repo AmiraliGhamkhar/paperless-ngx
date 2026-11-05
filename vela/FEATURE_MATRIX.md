@@ -47,7 +47,7 @@ designed for, not built.
 
 | Feature | Status | Notes |
 |---|---|---|
-| Brush presets | Implemented | 30 presets, 17 categories, each tuned differently |
+| Brush presets | Implemented | 30 presets, 19 categories, each with its own tuned parameter set |
 | Size / opacity / flow / spacing / hardness | Implemented | All affect rendering |
 | Roundness / angle / scatter / jitter | Implemented | Nib transform per dab |
 | Grain textures | Implemented | 6 procedural textures, cached, scale + strength |

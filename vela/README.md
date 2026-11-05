@@ -86,7 +86,7 @@ Without that file the release variant builds unsigned; debug builds are unaffect
 ## Tests
 
 ```bash
-./gradlew :app:testDebugUnitTest            # 7 JVM test classes, pure logic
+./gradlew :app:testDebugUnitTest            # 6 JVM test classes, pure logic
 ./gradlew :app:connectedDebugAndroidTest    # on-device: project archive, flood fill
 python3 tools/verify_project.py             # structural verification (no SDK needed)
 ```
@@ -104,7 +104,7 @@ canvases.
 inspector (Brush / Colour / Layers), floating size–opacity bar, full-screen mode, adaptive layout
 for phones.
 
-**Painting** — 30 tuned brush presets across 17 categories; size, opacity, flow, spacing,
+**Painting** — 30 tuned brush presets across 19 categories; size, opacity, flow, spacing,
 hardness, roundness, angle, scatter, stabilizer, taper, size/angle jitter, grain, pressure
 response curves, tilt and velocity response, hue/saturation/value dynamics; six rendering engines
 (round, textured, chisel, spray, stamp, smudge) plus erasers.
@@ -138,8 +138,8 @@ vela/
 │   ├── data/                    Room catalogue, .vela codec, repository, settings, storage layout
 │   ├── presentation/            gallery, new canvas, editor, brush studio, colour studio, settings
 │   └── ui/                      design tokens/theme, shared components, icon set
-├── app/src/test/                7 JVM test classes (viewport, dabs, tiles, manifest, presets, input)
-├── app/src/androidTest/         on-device archive round-trip + flood fill tests
+├── app/src/test/                6 JVM test classes / 54 test methods (viewport, dabs, tiles, manifest, presets, input)
+├── app/src/androidTest/         on-device archive round-trip, corruption and flood-fill tests
 └── tools/verify_project.py      structural verification (runs without the Android SDK)
 ```
 
